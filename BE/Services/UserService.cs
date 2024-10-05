@@ -23,7 +23,8 @@ namespace BE.Services
             {
                 Username = userDto.Username,
                 Email = userDto.Email,
-                PasswordHash = passwordHash
+                PasswordHash = passwordHash,
+                Admin = userDto.Admin
             };
 
             _context.Users.Add(user);
