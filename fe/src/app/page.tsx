@@ -1,43 +1,25 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import api from './services/api';
+import Link from 'next/link';
 
-interface User {
-    id: number;
-    username: string; // Make sure the property matches your User model
+export default function HomePage() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
+      <h1>Welcome to the Home Page</h1>
+      
+      <div style={{ marginTop: '20px' }}>
+        <Link href="/adminlogin">
+          <button style={{ marginRight: '20px', padding: '10px 20px', fontSize: '16px' }}>
+            Admin Login
+          </button>
+        </Link>
+        
+        <Link href="/login">
+          <button style={{ padding: '10px 20px', fontSize: '16px' }}>
+            Normal Login
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
 }
-
-const HomePage = () => {
-    const [data, setData] = useState<User[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await api.get('/api/users');
-                setData(response.data);
-            } catch (error) {
-                console.error('Error fetching data', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    return (
-        <div>
-            <h1>Users List</h1>
-            {data.length > 0 ? (
-                <ul>
-                    {data.map(user => (
-                        <li key={user.id}>{user.username}</li>
-                    ))}
-                </ul>
-            ) : (
-                <p>Loading...</p>
-            )}
-        </div>
-    );
-};
-
-export default HomePage;
