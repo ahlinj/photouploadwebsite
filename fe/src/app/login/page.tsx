@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import axios from 'axios';
 import Cookies from 'js-cookie';
+import api from '../services/api';
 
 const Login = () => {
   const [username, setUsername] = useState<string>('');
@@ -13,7 +13,7 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5198/api/Users/login', {
+      const response = await api.post('/api/Users/login', {
         username,
         password
       });
