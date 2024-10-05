@@ -1,16 +1,34 @@
 "use client";
 
 import { useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    console.log('Username:', username);
-    console.log('Password:', password);
+    try {
+      const response = await axios.post('http://localhost:5198/api/Users/login', {
+        username,
+        password
+      });
+
+      const token = response.data.token;
+
+      Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'Strict' });
+
+      console.log('Login successful', token);
+
+      //window.location.href = '/dashboard';
+    } catch (error) {
+      setErrorMessage('Invalid username or password');
+      console.error('Login failed', error);
+    }
   };
 
   return (
@@ -39,6 +57,7 @@ const Login = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
     </div>
   );
 };
