@@ -60,6 +60,33 @@ namespace BE.Controllers
             return Ok(new { token });
         }
 
+        [HttpPost("adminlogin")]
+        public async Task<IActionResult> AdminLogin([FromBody] UserLoginDto loginDto)
+        {
+            var user = await _userService.GetUserByUsernameAsync(loginDto.Username);
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Invalid username or password" });
+            }
+
+            var isPasswordValid = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash);
+            if (!isPasswordValid)
+            {
+                return Unauthorized(new { message = "Invalid username or password" });
+            }
+
+            if (!user.Admin) 
+            {
+                return Forbid();
+            }
+
+            var token = GenerateJwtToken(user);
+
+            return Ok(new { token });
+        }
+
+
+
         private string GenerateJwtToken(User user)
         {
             var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");

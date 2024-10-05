@@ -10,6 +10,6 @@ namespace BE.Models
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public int Admin { get; set; }
+        public bool Admin { get; set; }
     }
 }

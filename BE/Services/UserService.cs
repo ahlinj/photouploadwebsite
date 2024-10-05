@@ -24,7 +24,7 @@ namespace BE.Services
                 Username = userDto.Username,
                 Email = userDto.Email,
                 PasswordHash = passwordHash,
-                Admin = userDto.Admin
+                Admin = userDto.Admin == 1
             };
 
             _context.Users.Add(user);

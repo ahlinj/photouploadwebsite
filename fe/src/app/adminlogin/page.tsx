@@ -1,16 +1,45 @@
-"use client"; 
+"use client";
 
 import { useState } from 'react';
+import Cookies from 'js-cookie';
+import api from '../services/api';
 
 const AdminLogin = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    console.log('Username:', username);
-    console.log('Password:', password);
+    try {
+      const response = await api.post('/api/Users/adminlogin', {
+        username,
+        password
+      });
+
+      const token = response.data.token;
+
+      Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'Strict' });
+
+      console.log('Login successful', token);
+
+      //window.location.href = '/dashboard';
+    } catch (error: any) {
+      if (error.response) {
+          // Check for specific status codes
+          if (error.response.status === 401) {
+              setErrorMessage('Invalid username or password');
+          } else if (error.response.status === 403) {
+              setErrorMessage('Access denied: You do not have the necessary permissions');
+          } else {
+              setErrorMessage('An unexpected error occurred. Please try again.');
+          }
+      } else {
+          setErrorMessage('Network error. Please check your connection.');
+      }
+      console.error('Login failed', error);
+  }
   };
 
   return (
@@ -39,6 +68,7 @@ const AdminLogin = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
     </div>
   );
 };
