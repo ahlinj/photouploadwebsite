@@ -24,7 +24,7 @@ const Login = () => {
 
       console.log('Login successful', token);
 
-      //window.location.href = '/dashboard';
+      window.location.href = '/photoupload';
     } catch (error) {
       setErrorMessage('Invalid username or password');
       console.error('Login failed', error);

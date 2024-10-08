@@ -22,9 +22,9 @@ namespace BE.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegistrationDto userDto)
+        public async Task<IActionResult> Register(UserRegistrationDto registerDto)
         {
-            await _userService.AddUser(userDto);
+            await _userService.AddUser(registerDto);
             return Ok(new { message = "User registered successfully" });
         }
 
@@ -97,7 +97,8 @@ namespace BE.Controllers
             var claims = new[]
             {
             new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));

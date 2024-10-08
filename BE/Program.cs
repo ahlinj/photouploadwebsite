@@ -54,6 +54,7 @@ builder.Services.AddAuthorization();
 
 
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<PhotoService>();
 builder.Services.AddControllers();
 
 
