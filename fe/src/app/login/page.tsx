@@ -20,9 +20,9 @@ const Login = () => {
 
       const token = response.data.token;
 
-      Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'Strict' });
+      Cookies.set('token', token, { expires: 7, secure: false, sameSite: 'Strict', path: '/' });
 
-      console.log('Login successful', token);
+      console.log('Login successful', Cookies.get('token'));
 
       window.location.href = '/photoupload';
     } catch (error) {
