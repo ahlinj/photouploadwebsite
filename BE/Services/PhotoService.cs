@@ -20,7 +20,7 @@ namespace BE.Services
                 return false;
 
             string fileExtension = Path.GetExtension(photoFile.FileName);
-            string fileName = $"{userId}{fileExtension}";
+            string fileName = Path.GetFileName(photoFile.FileName);
             string storageDirectory = Environment.GetEnvironmentVariable("PHOTO_STORAGE_PATH");
             string storagePath = Path.Combine(storageDirectory, fileName);
             System.Diagnostics.Debug.WriteLine("SPATH: "+storagePath);
