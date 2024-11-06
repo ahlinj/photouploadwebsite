@@ -29,7 +29,10 @@ namespace BE.Controllers
         [Authorize]
         public async Task<IActionResult> PhotoUpload([FromForm] IFormFile photo) 
         {
-
+            foreach (var claim in User.Claims)
+            {
+                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+            }
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!int.TryParse(userIdClaim, out int userId))
             {
