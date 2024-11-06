@@ -29,7 +29,9 @@ namespace BE.Controllers
         [Authorize]
         public async Task<IActionResult> PhotoUpload([FromForm] IFormFile photo) 
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            string userIdValue = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            int userId = int.Parse(userIdValue);
+
 
             var result = await _photoService.SavePhotoAsync(photo, userId);
 
