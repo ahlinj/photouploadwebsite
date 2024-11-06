@@ -6,6 +6,7 @@ using BE.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Utilities;
 
 namespace BE.Controllers
 {
@@ -29,10 +30,12 @@ namespace BE.Controllers
         public async Task<IActionResult> PhotoUpload([FromForm] IFormFile photo) 
         {
 
-            var usernameClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            var username = usernameClaim?.Value;
-            var user = _userService.GetUserByUsernameAsync(username);
-            var userId = user.Id;
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return Unauthorized("Invalid or missing User ID in the token.");
+            }
+
             var result = await _photoService.SavePhotoAsync(photo, userId);
 
             if (result)
