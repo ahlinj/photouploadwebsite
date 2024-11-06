@@ -30,6 +30,7 @@ namespace BE.Controllers
         public async Task<IActionResult> PhotoUpload([FromForm] IFormFile photo) 
         {
             string userIdValue = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Console.WriteLine(userIdValue);
             int userId = int.Parse(userIdValue);
 
 
