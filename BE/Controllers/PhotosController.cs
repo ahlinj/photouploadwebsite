@@ -29,15 +29,7 @@ namespace BE.Controllers
         [Authorize]
         public async Task<IActionResult> PhotoUpload([FromForm] IFormFile photo) 
         {
-            foreach (var claim in User.Claims)
-            {
-                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-            }
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (!int.TryParse(userIdClaim, out int userId))
-            {
-                return Unauthorized("Invalid or missing User ID in the token.");
-            }
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
             var result = await _photoService.SavePhotoAsync(photo, userId);
 
