@@ -1,5 +1,6 @@
 ﻿using BE.Data;
 using BE.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BE.Services
 {
@@ -43,6 +44,11 @@ namespace BE.Services
 
 
             return true;
+        }
+
+        public async Task<List<Photo>> GetAllPhotos()
+        {
+            return await _context.Photos.ToListAsync();
         }
 
     }

@@ -42,6 +42,19 @@ namespace BE.Controllers
 
         }
 
+        [HttpGet("photodisplay")]
+        [Authorize]
+        public async Task<IActionResult> PhotoDisplay()
+        {
+            var photos = await _photoService.GetAllPhotos();
+            if (photos == null)
+            {
+                return NotFound("No photos found.");
+            }
+
+            return Ok(photos);
+        }
+
 
 
     }

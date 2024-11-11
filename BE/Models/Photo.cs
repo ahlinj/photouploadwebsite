@@ -11,5 +11,6 @@ namespace BE.Models
         public string PhotoPath { get; set; }
         public DateTime UploadDate { get; set; } = DateTime.Now;
         public string FileExtension {  get; set; }
+        public string Url => $"http://0.0.0.0:5198/photos{PhotoPath}";
     }
 }
