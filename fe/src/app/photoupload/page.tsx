@@ -73,9 +73,9 @@ const PhotoUpload: React.FC = () => {
                 textAlign: 'center',
                 borderRadius: '10px',
                 backgroundColor: isDragOver ? '#f0f8ff' : '#f9f9f9',
-                position: 'relative', // Ensure the file input can be positioned correctly
+                position: 'relative', 
             }}
-            onClick={() => document.getElementById('fileInput')?.click()} // Trigger file input on click
+            onClick={() => document.getElementById('fileInput')?.click()}
         >
             {selectedFile ? (
                 <p>Selected file: {selectedFile.name}</p>
@@ -84,7 +84,7 @@ const PhotoUpload: React.FC = () => {
             )}
             <input
                 type="file"
-                id="fileInput" // Add an ID for easy reference
+                id="fileInput"
                 onChange={handleFileSelect}
                 style={{
                     opacity: 0,
