@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import api from "../services/api";
+import Cookies from 'js-cookie';
 
 interface Photo {
   id: number;
@@ -13,8 +14,14 @@ const PhotoDisplay = () => {
 
   useEffect(() => {
     const fetchPhotos = async () => {
+      const token = Cookies.get('token');
       try {
-        const response = await api.get('/api/Photos/photodisplay');
+        const response = await api.get('/api/Photos/photodisplay',{
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data'
+            }
+          });
         setPhotos(response.data);
       } catch (error) {
         console.error('Error fetching photos:', error);
