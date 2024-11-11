@@ -14,7 +14,7 @@ const PhotoDisplay = () => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const response = await axios.get('/api/photos');
+        const response = await axios.get('/api/Photos/photodisplay');
         setPhotos(response.data);
       } catch (error) {
         console.error('Error fetching photos:', error);
