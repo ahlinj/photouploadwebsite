@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Cookies from 'js-cookie';
 import api from "../services/api";
+import { useRouter } from "next/router";
 
 const PhotoUpload: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -58,6 +59,10 @@ const PhotoUpload: React.FC = () => {
             console.error('No file selected');
           }
     };
+
+    const handleRedirect = () => {
+      useRouter().push('/photodisplay/'); 
+    };
   
     return (
       <div>
@@ -100,6 +105,9 @@ const PhotoUpload: React.FC = () => {
         
         <button onClick={handleSubmit} disabled={!selectedFile} style={{ marginTop: '20px' }}>
           Upload File
+        </button>
+        <button onClick={handleRedirect} style={{ padding: '10px 20px', cursor: 'pointer' }}>
+          Go to New Page
         </button>
       </div>
     );

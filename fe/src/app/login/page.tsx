@@ -33,7 +33,7 @@ const Login = () => {
 
   return (
     <div>
-      <h1>Admin Login</h1>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
