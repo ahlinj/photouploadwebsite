@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from "../services/api";
 
 interface Photo {
   id: number;
@@ -14,7 +14,7 @@ const PhotoDisplay = () => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const response = await axios.get('/api/Photos/photodisplay');
+        const response = await api.get('/api/Photos/photodisplay');
         setPhotos(response.data);
       } catch (error) {
         console.error('Error fetching photos:', error);
