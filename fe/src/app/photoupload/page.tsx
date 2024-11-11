@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Cookies from 'js-cookie';
 import api from "../services/api";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const PhotoUpload: React.FC = () => {
     const router = useRouter();
