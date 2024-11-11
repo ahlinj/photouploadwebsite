@@ -6,6 +6,7 @@ import api from "../services/api";
 import { useRouter } from "next/router";
 
 const PhotoUpload: React.FC = () => {
+    const router = useRouter();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isDragOver, setIsDragOver] = useState(false);
   
@@ -61,7 +62,7 @@ const PhotoUpload: React.FC = () => {
     };
 
     const handleRedirect = () => {
-      useRouter().push('/photodisplay/'); 
+      router.push('/photodisplay/'); 
     };
   
     return (
@@ -107,7 +108,7 @@ const PhotoUpload: React.FC = () => {
           Upload File
         </button>
         <button onClick={handleRedirect} style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          Go to New Page
+          View Images
         </button>
       </div>
     );
