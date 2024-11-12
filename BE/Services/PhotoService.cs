@@ -51,6 +51,13 @@ namespace BE.Services
             return await _context.Photos.ToListAsync();
         }
 
+        public async Task<List<Photo>> GetUserPhotos(int userId)
+        {
+            return await _context.Photos
+                .Where(photo => photo.UserId == userId)
+                .ToListAsync();
+        }
+
     }
 
     

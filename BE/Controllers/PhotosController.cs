@@ -46,7 +46,9 @@ namespace BE.Controllers
         [Authorize]
         public async Task<IActionResult> PhotoDisplay()
         {
-            var photos = await _photoService.GetAllPhotos();
+            int userId = int.Parse(User.FindFirst("userId")?.Value);
+
+            var photos = await _photoService.GetUserPhotos(userId);
             if (photos == null)
             {
                 return NotFound("No photos found.");
