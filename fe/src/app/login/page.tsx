@@ -24,7 +24,7 @@ const Login = () => {
 
       console.log('Login successful', Cookies.get('token'));
 
-      window.location.href = '/photoupload';
+      window.location.href = '/welcome';
     } catch (error) {
       setErrorMessage('Invalid username or password');
       console.error('Login failed', error);

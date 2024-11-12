@@ -19,7 +19,7 @@ const Welcome = () => {
         if (token) {
           try {
             const decoded = jwtDecode<MyJwtPayload>(token);
-            setUsername(decoded.username || 'username');
+            setUsername(decoded.username || 'usernme');
           } catch (error) {
             console.error('Failed to decode token:', error);
           }
