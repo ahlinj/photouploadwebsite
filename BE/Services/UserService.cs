@@ -14,7 +14,7 @@ namespace BE.Services
             _context = context;
         }
 
-        public async Task AddUser(UserRegistrationDto userDto)
+        public async Task<User> AddUser(UserRegistrationDto userDto)
         {
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
@@ -29,6 +29,7 @@ namespace BE.Services
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+            return user;
         }
 
         public async Task<List<User>> GetAllUsers()

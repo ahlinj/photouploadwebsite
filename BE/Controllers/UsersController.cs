@@ -24,7 +24,11 @@ namespace BE.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegistrationDto registerDto)
         {
-            await _userService.AddUser(registerDto);
+            var newUser = await _userService.AddUser(registerDto);
+            string storageDirectory = Environment.GetEnvironmentVariable("PHOTO_STORAGE_PATH");
+            string userDirectory = Path.Combine(storageDirectory, newUser.Id.ToString());
+            Directory.CreateDirectory(userDirectory);
+
             return Ok(new { message = "User registered successfully" });
         }
 
