@@ -9,6 +9,7 @@ const PhotoUpload: React.FC = () => {
     const router = useRouter();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isDragOver, setIsDragOver] = useState(false);
+    const [folderName, setFolderName] = useState('');
   
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files && event.target.files.length > 0) {
@@ -64,6 +65,26 @@ const PhotoUpload: React.FC = () => {
     const handleRedirect = () => {
       router.push('/photodisplay/'); 
     };
+
+    const handleAddFolder = async () => {
+      if (folderName.trim() === '') {
+        alert('Please enter a folder name.');
+        return;
+      }
+      const token = Cookies.get('token');
+      try {
+        const response = await api.post('/api/Photos/addfolder', {folderName},{
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log('Folder added successfully:', response.data);
+      } catch (error) {
+        console.error('Error uploading file', error);
+      }
+      setFolderName('');
+    }
   
     return (
       <div>
@@ -110,6 +131,18 @@ const PhotoUpload: React.FC = () => {
         <button onClick={handleRedirect} style={{ padding: '10px 20px', cursor: 'pointer' }}>
           View Images
         </button>
+        <div>
+          <input 
+            type="text" 
+            value={folderName} 
+            onChange={(e) => setFolderName(e.target.value)} 
+            placeholder="Enter folder name" 
+            style={{ padding: '8px', marginRight: '10px' }}
+          />
+          <button onClick={handleAddFolder} style={{ padding: '10px 20px', cursor: 'pointer' }}>
+            Add folder
+          </button>
+        </div>
       </div>
     );
   };
