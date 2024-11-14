@@ -57,6 +57,38 @@ namespace BE.Controllers
             return Ok(photos);
         }
 
+        [HttpPost("addfolder")]
+        [Authorize]
+        public async Task<IActionResult> AddFolder([FromBody] FolderDto folderDto)
+        {
+            if (string.IsNullOrWhiteSpace(folderDto.FolderName))
+            {
+                return BadRequest(new { message = "Folder name cannot be empty." });
+            }
+
+            try
+            {
+                string userId = User.FindFirst("userId")?.Value;
+                string userDirectory = Path.Combine(Environment.GetEnvironmentVariable("PHOTO_STORAGE_PATH"), userId);
+                string folderPath = Path.Combine(userDirectory, folderDto.FolderName);
+
+                if (Directory.Exists(folderPath))
+                {
+                    return BadRequest(new { message = "Folder already exists." });
+                }
+                else
+                {
+                    Directory.CreateDirectory(folderPath);
+                    return Ok(new { message = "Folder created successfully." });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while creating the folder.", error = ex.Message });
+            }
+        }
+
 
 
     }
