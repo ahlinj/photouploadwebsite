@@ -23,7 +23,8 @@ namespace BE.Services
             string fileExtension = Path.GetExtension(photoFile.FileName);
             string fileName = Path.GetFileName(photoFile.FileName);
             string storageDirectory = Environment.GetEnvironmentVariable("PHOTO_STORAGE_PATH");
-            string storagePath = Path.Combine(storageDirectory, fileName);
+            string userDirectory = Path.Combine(storageDirectory, userId.ToString());
+            string storagePath = Path.Combine(userDirectory, fileName);
             System.Diagnostics.Debug.WriteLine("SPATH: "+storagePath);
 
             // Save the file to the directory
