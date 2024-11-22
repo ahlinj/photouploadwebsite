@@ -17,15 +17,18 @@ namespace BE.Services
             _photoStoragePath = Environment.GetEnvironmentVariable("PHOTO_STORAGE_PATH");
         }
 
-        public async Task<bool> SavePhotoAsync(IFormFile photoFile, int userId)
+        public async Task<bool> SavePhotoAsync(IFormFile photoFile, int userId, string folder)
         {
             if (photoFile == null || photoFile.Length == 0)
                 return false;
 
             string fileExtension = Path.GetExtension(photoFile.FileName);
             string fileName = Path.GetFileName(photoFile.FileName);
-            string storageDirectory = _photoStoragePath;
-            string userDirectory = Path.Combine(storageDirectory, userId.ToString());
+            string userDirectory = Path.Combine(_photoStoragePath, userId.ToString());
+            if(!folder.Equals("root")) 
+            {
+                userDirectory = Path.Combine(userDirectory, folder);
+            }
             string storagePath = Path.Combine(userDirectory, fileName);
             System.Diagnostics.Debug.WriteLine("SPATH: "+storagePath);
 

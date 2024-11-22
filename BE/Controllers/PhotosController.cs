@@ -27,11 +27,11 @@ namespace BE.Controllers
         
         [HttpPost("photoupload")]
         [Authorize]
-        public async Task<IActionResult> PhotoUpload([FromForm] IFormFile photo) 
+        public async Task<IActionResult> PhotoUpload([FromForm] IFormFile photo, [FromForm] string folder) 
         {
             int userId = int.Parse(User.FindFirst("userId")?.Value);
 
-            var result = await _photoService.SavePhotoAsync(photo, userId);
+            var result = await _photoService.SavePhotoAsync(photo, userId, folder);
 
             if (result)
             {
