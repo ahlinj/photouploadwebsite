@@ -55,7 +55,7 @@ const PhotoDisplay = () => {
           />
           <div style={{ marginTop: '10px', fontSize: '14px', color: '#555' }}>
             <p><strong>Image name:</strong>{photo.photoPath.split('/').pop()?.split('.')[0]}</p>
-            <p><strong>Folder:</strong>{photo.photoPath.replace(new RegExp(`/mtn/hdd/photos/${photo.userId}`),'').replace(/\/[^/]+$/, '')}</p>
+            <p><strong>Folder:</strong>{photo.photoPath.replace(new RegExp(`/mtn/hdd/photos/${photo.userId}`),'').replace(/\/[^/]+$/, '') || '/'}</p>
             <p><strong>Upload Date:</strong> {new Date(photo.uploadDate).toLocaleDateString()}</p>
             <p><strong>File Extension:</strong> {photo.fileExtension}</p>
           </div>
