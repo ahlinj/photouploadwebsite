@@ -9,6 +9,7 @@ interface Photo {
   url: string;
   uploadDate: string;
   fileExtension: string;
+  photoPath: string;
 }
 
 const PhotoDisplay = () => {
@@ -54,6 +55,7 @@ const PhotoDisplay = () => {
           <div style={{ marginTop: '10px', fontSize: '14px', color: '#555' }}>
             <p><strong>Upload Date:</strong> {new Date(photo.uploadDate).toLocaleDateString()}</p>
             <p><strong>File Extension:</strong> {photo.fileExtension}</p>
+            <p><strong>Folder:</strong>{photo.photoPath}</p>
           </div>
         </div>
       ))}
