@@ -10,7 +10,7 @@ namespace BE.Services
         private readonly IWebHostEnvironment _environment;
         private readonly string _photoStoragePath;
 
-        public PhotoService(ApplicationDbContext dbContext, IWebHostEnvironment environment)
+        public PhotoService(ApplicationDbContext dbContext, IWebHostEnvironment environment) 
         {
             _context = dbContext;
             _environment = environment;
@@ -61,12 +61,13 @@ namespace BE.Services
                 .ToListAsync();
         }
 
-        public List<string?> GetUserFolders(int userId)
+        public List<string> GetUserFolders(int userId)
         {
             var userDirectory = Path.Combine(_photoStoragePath, userId.ToString());
-            return  Directory.GetDirectories(userDirectory)
-                                   .Select(Path.GetFileName)
-                                   .ToList();
+            var folders = new List<string> { "root" };
+            folders.AddRange(  Directory.GetDirectories(userDirectory)
+                                        .Select(Path.GetFileName));
+            return folders;
         }
 
     }
