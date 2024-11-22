@@ -10,7 +10,7 @@ const PhotoUpload: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isDragOver, setIsDragOver] = useState(false);
     const [folderName, setFolderName] = useState('');
-    const [folders, setFolders] = useState([]);
+    const [folders, setFolders] = useState(['root']);
     const [selectedFolder, setSelectedFolder] = useState('root'); 
   
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,7 +145,6 @@ const PhotoUpload: React.FC = () => {
             />
         </div>
         <select onChange={(e) => setSelectedFolder(e.target.value)} value={selectedFolder}>
-          <option value="root">Root</option>
           {folders.map((folder) => (
               <option key={folder} value={folder}>{folder}</option>
           ))}

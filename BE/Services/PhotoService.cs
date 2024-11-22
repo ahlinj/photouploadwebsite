@@ -61,7 +61,7 @@ namespace BE.Services
                 .ToListAsync();
         }
 
-        public async Task<List<string?>> GetUserFolders(int userId)
+        public List<string?> GetUserFolders(int userId)
         {
             var userDirectory = Path.Combine(_photoStoragePath, userId.ToString());
             return  Directory.GetDirectories(userDirectory)

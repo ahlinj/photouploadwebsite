@@ -96,7 +96,7 @@ namespace BE.Controllers
             try
             {
                 int userId = int.Parse(User.FindFirst("userId")?.Value);
-                var folders = _photoService.GetUserFolders(userId);
+                var folders = _photoService.GetUserFolders(userId) ?? ["root"];
                 return Ok(folders);
             }
             catch (Exception ex)
