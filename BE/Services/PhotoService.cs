@@ -8,11 +8,13 @@ namespace BE.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _environment;
+        private readonly string _photoStoragePath;
 
         public PhotoService(ApplicationDbContext dbContext, IWebHostEnvironment environment)
         {
             _context = dbContext;
             _environment = environment;
+            _photoStoragePath = Environment.GetEnvironmentVariable("PHOTO_STORAGE_PATH");
         }
 
         public async Task<bool> SavePhotoAsync(IFormFile photoFile, int userId)
@@ -22,7 +24,7 @@ namespace BE.Services
 
             string fileExtension = Path.GetExtension(photoFile.FileName);
             string fileName = Path.GetFileName(photoFile.FileName);
-            string storageDirectory = Environment.GetEnvironmentVariable("PHOTO_STORAGE_PATH");
+            string storageDirectory = _photoStoragePath;
             string userDirectory = Path.Combine(storageDirectory, userId.ToString());
             string storagePath = Path.Combine(userDirectory, fileName);
             System.Diagnostics.Debug.WriteLine("SPATH: "+storagePath);
@@ -57,6 +59,14 @@ namespace BE.Services
             return await _context.Photos
                 .Where(photo => photo.UserId == userId)
                 .ToListAsync();
+        }
+
+        public async Task<List<string?>> GetUserFolders(int userId)
+        {
+            var userDirectory = Path.Combine(_photoStoragePath, userId.ToString());
+            return  Directory.GetDirectories(userDirectory)
+                                   .Select(Path.GetFileName)
+                                   .ToList();
         }
 
     }

@@ -89,6 +89,22 @@ namespace BE.Controllers
             }
         }
 
+        [HttpGet("getUserFolders")]
+        [Authorize]
+        public async Task<IActionResult> GetUserFolders() 
+        {
+            try
+            {
+                int userId = int.Parse(User.FindFirst("userId")?.Value);
+                var folders = _photoService.GetUserFolders(userId);
+                return Ok(folders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error retrieving folders" , error = ex.Message });
+            }
+        }
+
 
 
     }
