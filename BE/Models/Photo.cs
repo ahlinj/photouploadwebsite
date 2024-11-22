@@ -11,7 +11,7 @@ namespace BE.Models
         public string PhotoPath { get; set; }
         public DateTime UploadDate { get; set; } = DateTime.Now;
         public string FileExtension {  get; set; }
-        public string Url => $"http://192.168.64.107:5198{PhotoPath.Replace("/mnt/hdd", string.Empty)}";
+        public string Url => $"http://192.168.64.107:5198{PhotoPath.Replace("/mtn/hdd", string.Empty)}";
 
     }
 }
