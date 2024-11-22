@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import api from "../services/api";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,8 @@ const PhotoUpload: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isDragOver, setIsDragOver] = useState(false);
     const [folderName, setFolderName] = useState('');
+    const [folders, setFolders] = useState([]);
+    const [selectedFolder, setSelectedFolder] = useState('root'); 
   
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files && event.target.files.length > 0) {
@@ -43,6 +45,7 @@ const PhotoUpload: React.FC = () => {
         if (selectedFile) {
             console.log('Submitting file:', selectedFile.name);
             formData.append('photo', selectedFile);
+            formData.append('folder', selectedFolder);
           
             const token = Cookies.get('token');
             console.log(token);
@@ -85,6 +88,23 @@ const PhotoUpload: React.FC = () => {
       }
       setFolderName('');
     }
+
+    useEffect(() => {
+      const fetchFolders = async () => {
+          try {
+              const token = Cookies.get('token');
+              const response = await api.get('/api/Photos/getUserFolders', {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                  },
+              });
+              setFolders(response.data);
+          } catch (error) {
+              console.error("Error fetching folders", error);
+          }
+      };
+      fetchFolders();
+    }, []);
   
     return (
       <div>
@@ -124,6 +144,12 @@ const PhotoUpload: React.FC = () => {
                 }}
             />
         </div>
+        <select onChange={(e) => setSelectedFolder(e.target.value)} value={selectedFolder}>
+          <option value="root">Root</option>
+          {folders.map((folder) => (
+              <option key={folder} value={folder}>{folder}</option>
+          ))}
+        </select>
         
         <button onClick={handleSubmit} disabled={!selectedFile} style={{ marginTop: '20px' }}>
           Upload File
