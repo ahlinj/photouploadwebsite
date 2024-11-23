@@ -35,6 +35,20 @@ const PhotoDisplay = () => {
     fetchPhotos();
   }, []);
 
+  const handleDelete = async (name:string|undefined) => {
+    const token = Cookies.get('token');
+    try{
+      const response = await api.delete(`api/Photos/deletePhoto?name=${name}`,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+    }catch(error){
+      console.log(error);
+    }
+  }
+
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
       {photos.map(photo => (
@@ -58,6 +72,7 @@ const PhotoDisplay = () => {
             <p><strong>Folder:</strong>{photo.photoPath.replace(new RegExp(`/mtn/hdd/photos/${photo.userId}`),'').replace(/\/[^/]+$/, '') || '/'}</p>
             <p><strong>Upload Date:</strong> {new Date(photo.uploadDate).toLocaleDateString()}</p>
             <p><strong>File Extension:</strong> {photo.fileExtension}</p>
+            <p><button onClick={() => handleDelete(photo.photoPath.split('/').pop())} style={{padding: "10px 20px"}}>Delete photo</button></p>
           </div>
         </div>
       ))}
