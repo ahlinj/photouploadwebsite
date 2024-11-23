@@ -17,23 +17,23 @@ const PhotoDisplay = () => {
   const [photos, setPhotos] = useState<Photo[]>([]);
 
   useEffect(() => {
-    const fetchPhotos = async () => {
-      const token = Cookies.get('token');
-      try {
-        const response = await api.get('/api/Photos/photodisplay',{
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'multipart/form-data'
-            }
-          });
-        setPhotos(response.data);
-      } catch (error) {
-        console.error('Error fetching photos:', error);
-      }
-    };
-
     fetchPhotos();
   }, []);
+
+  const fetchPhotos = async () => {
+    const token = Cookies.get('token');
+    try {
+      const response = await api.get('/api/Photos/photodisplay',{
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      setPhotos(response.data);
+    } catch (error) {
+      console.error('Error fetching photos:', error);
+    }
+  };
 
   const handleDelete = async (path:string) => {
     const token = Cookies.get('token');
@@ -44,6 +44,7 @@ const PhotoDisplay = () => {
           "Content-Type": "application/json"
         }
       });
+      fetchPhotos();
     }catch(error){
       console.log(error);
     }
