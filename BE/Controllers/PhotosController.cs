@@ -31,7 +31,7 @@ namespace BE.Controllers
         {
             int userId = int.Parse(User.FindFirst("userId")?.Value);
 
-            var result = await _photoService.SavePhotoAsync(photo, userId, folder);
+            bool result = await _photoService.SavePhotoAsync(photo, userId, folder);
 
             if (result)
             {
@@ -103,6 +103,18 @@ namespace BE.Controllers
             {
                 return StatusCode(500, new { message = "Error retrieving folders" , error = ex.Message });
             }
+        }
+
+        [HttpDelete("deletePhoto")]
+        [Authorize]
+        public async Task<IActionResult> DeletePhoto([FromQuery] string path)
+        {
+            bool success = await _photoService.DeletePhotoByName(Uri.UnescapeDataString(path));
+
+            if (success)
+                return Ok(new { message = "Photo deleted successfully." });
+            else
+                return NotFound(new { message = "Photo not found." });
         }
 
 

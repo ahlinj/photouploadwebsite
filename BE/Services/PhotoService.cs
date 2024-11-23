@@ -73,6 +73,25 @@ namespace BE.Services
             return folders;
         }
 
+        public async Task<bool> DeletePhotoByName(string path)
+        {
+            try
+            {
+                File.Delete(path);
+                var photo = await _context.Photos.FirstOrDefaultAsync(p => p.PhotoPath == path);
+                if (photo != null)
+                {
+                    _context.Photos.Remove(photo);
+                    await _context.SaveChangesAsync();
+                }
+
+                return true;
+            } catch 
+            {
+                return false;
+            }
+        }
+
     }
 
     

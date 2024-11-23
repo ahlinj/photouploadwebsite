@@ -35,10 +35,10 @@ const PhotoDisplay = () => {
     fetchPhotos();
   }, []);
 
-  const handleDelete = async (name:string|undefined) => {
+  const handleDelete = async (path:string) => {
     const token = Cookies.get('token');
     try{
-      const response = await api.delete(`api/Photos/deletePhoto?name=${name}`,{
+      const response = await api.delete(`api/Photos/deletePhoto?path=${encodeURIComponent(path)}`,{
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -72,7 +72,7 @@ const PhotoDisplay = () => {
             <p><strong>Folder:</strong>{photo.photoPath.replace(new RegExp(`/mtn/hdd/photos/${photo.userId}`),'').replace(/\/[^/]+$/, '') || '/'}</p>
             <p><strong>Upload Date:</strong> {new Date(photo.uploadDate).toLocaleDateString()}</p>
             <p><strong>File Extension:</strong> {photo.fileExtension}</p>
-            <p><button onClick={() => handleDelete(photo.photoPath.split('/').pop())}>Delete photo</button></p>
+            <p><button onClick={() => handleDelete(photo.photoPath)}>Delete photo</button></p>
           </div>
         </div>
       ))}
