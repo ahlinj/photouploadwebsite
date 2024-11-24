@@ -120,14 +120,21 @@ namespace BE.Controllers
 
         [HttpPut("changePhotoFolder")]
         [Authorize]
-        public async Task<IActionResult> ChangePhotoFolder([FromBody] FolderDto folderDto)
+        public async Task<IActionResult> ChangePhotoFolder([FromBody] MovePhotoDto moveFolderDto)
         {
-            bool success = await _photoService.MovePhotoToFolder(folderDto);
+            try
+            {
+                int userId = int.Parse(User.FindFirst("userId")?.Value);
+                bool success = await _photoService.MovePhotoToFolder(moveFolderDto, userId);
 
-            if (success)
-                return Ok(new { message = "Photo moved successfully." });
-            else
-                return NotFound(new { message = "Error." });
+                if (success)
+                    return Ok(new { message = "Photo moved successfully." });
+                else
+                    return NotFound(new { message = "Error." });
+            }catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error", error = ex.Message });
+            }
         }
 
 
