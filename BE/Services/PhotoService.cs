@@ -98,7 +98,16 @@ namespace BE.Services
             try
             {
                 string photoName = Path.GetFileName(moveFolderDto.PhotoPath);
-                string destFilePath = Path.Combine(_photoStoragePath, userId.ToString(), moveFolderDto.NewFolderName, photoName);
+                string destFilePath = Path.Combine(_photoStoragePath, userId.ToString());
+                if (moveFolderDto.NewFolderName.Equals("root"))
+                {
+                     destFilePath = Path.Combine(destFilePath,photoName);
+                }
+                else 
+                {
+                    destFilePath = Path.Combine(destFilePath, moveFolderDto.NewFolderName, photoName);
+                }
+
                 File.Move(moveFolderDto.PhotoPath, destFilePath);
 
                 var photo = await _context.Photos.FirstOrDefaultAsync(p => p.PhotoPath == moveFolderDto.PhotoPath);
