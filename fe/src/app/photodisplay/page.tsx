@@ -106,7 +106,6 @@ const PhotoDisplay = () => {
             <p><strong>Folder:</strong>{photo.photoPath.replace(new RegExp(`/mtn/hdd/photos/${photo.userId}`),'').replace(/\/[^/]+$/, '') || '/'}</p>
             <p><strong>Upload Date:</strong> {new Date(photo.uploadDate).toLocaleDateString()}</p>
             <p><strong>File Extension:</strong> {photo.fileExtension}</p>
-            <p><button onClick={() => handleDelete(photo.photoPath)}>Delete photo</button></p>
             <p>
               <select onChange={(e) => setSelectedFolder(e.target.value)} value={selectedFolder}>
                 {folders.map((folder) => (
@@ -115,6 +114,7 @@ const PhotoDisplay = () => {
               </select>
               <button onClick={() => handleChangeFolder()}>Change folder</button>
             </p>
+            <p><button onClick={() => handleDelete(photo.photoPath)}>Delete photo</button></p>
           </div>
         </div>
       ))}
