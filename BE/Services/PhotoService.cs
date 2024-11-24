@@ -93,12 +93,12 @@ namespace BE.Services
             }
         }
 
-        public async Task<bool> MovePhotoToFolder(MovePhotoDto moveFolderDto, string userId)
+        public async Task<bool> MovePhotoToFolder(MovePhotoDto moveFolderDto, int userId)
         {
             try
             {
                 string photoName = Path.GetFileName(moveFolderDto.PhotoPath);
-                string destFilePath = Path.Combine(_photoStoragePath, userId, moveFolderDto.NewFolderName, photoName);
+                string destFilePath = Path.Combine(_photoStoragePath, userId.ToString(), moveFolderDto.NewFolderName, photoName);
                 File.Move(moveFolderDto.PhotoPath, destFilePath);
 
                 var photo = await _context.Photos.FirstOrDefaultAsync(p => p.PhotoPath == moveFolderDto.PhotoPath);

@@ -57,8 +57,8 @@ const PhotoDisplay = () => {
       const token = Cookies.get('token');
       const response = await api.put('api/Photos/changePhotoFolder',{selectedFolder,path},{
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       fetchPhotos();
     }catch(error){
