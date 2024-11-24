@@ -52,10 +52,10 @@ const PhotoDisplay = () => {
     }
   }
 
-  const handleChangeFolder = async() => {
+  const handleChangeFolder = async(path:string) => {
     try{
       const token = Cookies.get('token');
-      const response = await api.put('api/Photos/changePhotoFolder',{selectedFolder},{
+      const response = await api.put('api/Photos/changePhotoFolder',{selectedFolder,path},{
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -112,7 +112,7 @@ const PhotoDisplay = () => {
                     <option key={folder} value={folder}>{folder}</option>
                 ))}
               </select>
-              <button onClick={() => handleChangeFolder()}>Change folder</button>
+              <button onClick={() => handleChangeFolder(photo.photoPath)}>Change folder</button>
             </p>
             <p><button onClick={() => handleDelete(photo.photoPath)}>Delete photo</button></p>
           </div>

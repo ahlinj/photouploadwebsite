@@ -1,4 +1,5 @@
 ﻿using BE.Data;
+using BE.DTOs;
 using BE.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -87,6 +88,29 @@ namespace BE.Services
 
                 return true;
             } catch 
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> MovePhotoToFolder(MovePhotoDto moveFolderDto, string userId)
+        {
+            try
+            {
+                string photoName = Path.GetFileName(moveFolderDto.PhotoPath);
+                string destFilePath = Path.Combine(_photoStoragePath, userId, moveFolderDto.NewFolderName, photoName);
+                File.Move(moveFolderDto.PhotoPath, destFilePath);
+
+                var photo = await _context.Photos.FirstOrDefaultAsync(p => p.PhotoPath == moveFolderDto.PhotoPath);
+                if (photo != null)
+                {
+                    photo.PhotoPath = destFilePath;
+                    _context.Photos.Update(photo);
+                    await _context.SaveChangesAsync();
+                }
+                return true;
+
+            }catch
             {
                 return false;
             }
