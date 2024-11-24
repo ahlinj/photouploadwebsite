@@ -15,6 +15,8 @@ interface Photo {
 
 const PhotoDisplay = () => {
   const [photos, setPhotos] = useState<Photo[]>([]);
+  const [folders, setFolders] = useState(['root']);
+  const [selectedFolder, setSelectedFolder] = useState('root'); 
 
   useEffect(() => {
     fetchPhotos();
@@ -50,6 +52,37 @@ const PhotoDisplay = () => {
     }
   }
 
+  const handleChangeFolder = async() => {
+    try{
+      const token = Cookies.get('token');
+      const response = await api.put('api/Photos/changePhotoFolder',{selectedFolder},{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      fetchPhotos();
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    const fetchFolders = async () => {
+        try {
+            const token = Cookies.get('token');
+            const response = await api.get('/api/Photos/getUserFolders', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setFolders(response.data);
+        } catch (error) {
+            console.error("Error fetching folders", error);
+        }
+    };
+    fetchFolders();
+  }, []);
+
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
       {photos.map(photo => (
@@ -74,6 +107,14 @@ const PhotoDisplay = () => {
             <p><strong>Upload Date:</strong> {new Date(photo.uploadDate).toLocaleDateString()}</p>
             <p><strong>File Extension:</strong> {photo.fileExtension}</p>
             <p><button onClick={() => handleDelete(photo.photoPath)}>Delete photo</button></p>
+            <p>
+              <select onChange={(e) => setSelectedFolder(e.target.value)} value={selectedFolder}>
+                {folders.map((folder) => (
+                    <option key={folder} value={folder}>{folder}</option>
+                ))}
+              </select>
+              <button onClick={() => handleChangeFolder()}>Change folder</button>
+            </p>
           </div>
         </div>
       ))}
