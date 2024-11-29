@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import api from "../services/api";
 import Cookies from 'js-cookie';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFolder } from '@fortawesome/free-solid-svg-icons';
 
 interface Photo {
   id: number;
@@ -17,6 +19,7 @@ const PhotoDisplay = () => {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [folders, setFolders] = useState(['root']);
   const [selectedFolder, setSelectedFolder] = useState('root'); 
+  const [displayedFolder, setDisplayedFolder] = useState('root'); 
 
   useEffect(() => {
     fetchPhotos();
@@ -85,6 +88,25 @@ const PhotoDisplay = () => {
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+      {folders.map((folder,index) => (
+        <div 
+        key={index}
+        style={{
+          width: '200px', 
+          border: '1px solid #ddd', 
+          borderRadius: '5px', 
+          padding: '10px', 
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' 
+        }}
+      >
+        <div>
+          <FontAwesomeIcon icon={faFolder} size="lg" />
+        </div>
+        <div style={{ marginTop: '10px', fontSize: '14px', color: '#555' }}>
+          <p><strong>Folder: </strong>{folder}</p>
+        </div>
+      </div>
+      ))}
       {photos.map(photo => (
         <div 
           key={photo.id} 
