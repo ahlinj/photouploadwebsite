@@ -99,7 +99,7 @@ const PhotoDisplay = () => {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' 
         }}
       >
-        <div>
+        <div style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '5px' }} >
           <FontAwesomeIcon icon={faFolder} size="lg" />
         </div>
         <div style={{ marginTop: '10px', fontSize: '14px', color: '#555' }}>
