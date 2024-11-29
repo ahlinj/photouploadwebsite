@@ -132,9 +132,9 @@ const PhotoDisplay = () => {
         {photos
           .filter(
             (photo) =>
-              photo.photoPath
-                .replace(new RegExp(`/mtn/hdd/photos/${photo.userId}/`), "")
-                .replace(/\/[^/]+$/, "") === displayedFolder
+              (photo.photoPath
+                .replace(new RegExp(`/mtn/hdd/photos/${photo.userId}`), "")
+                .replace(/\/[^/]+$/, "") || '/root') === '/'.concat(displayedFolder)
           )
           .map((photo) => (
             <div
