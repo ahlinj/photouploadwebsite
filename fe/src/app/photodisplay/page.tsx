@@ -88,15 +88,17 @@ const PhotoDisplay = () => {
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-      {folders.map((folder,index) => (
+      {folders.filter(folder => folder !== displayedFolder).map((folder,index)=> (
         <div 
         key={index}
+        onDoubleClick={() => setDisplayedFolder(folder)}
         style={{
           width: '200px', 
           border: '1px solid #ddd', 
           borderRadius: '5px', 
           padding: '10px', 
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' 
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', 
+          cursor: 'pointer'
         }}
       >
         <div>
